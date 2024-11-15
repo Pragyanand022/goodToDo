@@ -8,8 +8,11 @@
   <div class="box">
     <% for(let item of listItems){%>
       <div class="item">
-        <form action="/delete" method="post">
-          <input type="checkbox" onchange="this.form.submit()" name="deleteItemId" value="<%= item.id %>">
+
+        <form action="/finish/<%= item.id %>" method="post">
+          <input type="checkbox" onchange="this.form.submit()" name="finishItem" value="true" id="finishItem"
+          <% if (item.finish === true) { %> checked="checked" <% } %>
+          >
         </form>
 
         <p id="title<%=item.id%>">
@@ -25,8 +28,16 @@
         </form>
         <button id="edit<%=item.id%>" class="edit" onclick="handler('<%=item.id%>')"><img class="icon"
             src="/assets/icons/pencil-solid.svg" alt="pencil image"></button>
+
+        <form action="/delete" method="post">
+          <button id="deleteItem" type="submit" name="deleteItemId" value="<%= item.id %>" class="deleteTask"><img class="icon"
+              src="/assets/icons/trash-solid.svg" alt="bin image"></button>
+          
+        </form>
       </div>
-    <% } %>
+
+
+      <% } %>
 
         <form class="item" action="/add" method="post">
           <input type="text" name="newItem" placeholder="New Item" autocomplete="off" autofocus="true" />
@@ -41,5 +52,7 @@
       document.getElementById("done" + id).removeAttribute("hidden")
       document.getElementById("input" + id).removeAttribute("hidden")
     }
+
+
   </script>
   <%- include('partials/footer.ejs'); -%>

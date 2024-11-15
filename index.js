@@ -26,7 +26,7 @@ let items = [
 ];
 
 async function getItems(){
-  const result = await db.query('select* from items;');
+  const result = await db.query('select* from items order by id ASC;');
   const items = result.rows;
   console.log(items);
   return items;
@@ -38,7 +38,7 @@ app.get("/", async(req, res) => {
     items = await getItems();
     res.render("index.ejs", {
       listTitle: "Today",
-      listItems: items,
+      listItems: items
     });
   }catch(err){
     res.send(err.message);
@@ -78,6 +78,22 @@ app.post("/delete", async(req, res) => {
   catch(err){
     res.send(err);
   }
+});
+
+app.post('/finish/:id', async(req,res)=>{
+  const currId = req.params.id;
+  const isFinished = req.body.finishItem == 'true'? true:false;
+
+  console.log(req.body);
+  console.log(isFinished);
+
+  await db.query('update items set finish = ($1) where id = $2;', [isFinished, currId])
+  .then(()=>{
+    res.redirect('/');
+
+  }).catch(err=>{
+    res.send(err);
+  })
 });
 
 app.listen(port, () => {

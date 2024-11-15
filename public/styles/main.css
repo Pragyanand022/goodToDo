@@ -81,6 +81,13 @@ button.edit {
   background: none;
 }
 
+button.deleteTask{
+  margin-left: 0px;
+  margin-right: 20px;
+  border: none;
+  background: none;
+}
+
 .icon {
   height: 20px;
 }
@@ -111,3 +118,4 @@ footer {
   color: white;
   text-align: center;
 }
+
